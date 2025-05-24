@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  web:
+    image: php:8.1-apache
+    container_name: lamp_web
+    ports:
+      - "8080:80"  # Visit http://localhost:8080
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+      - mongo
+
+  db:
+    image: mysql:5.7
+    container_name: lamp_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: He150040500
+      MYSQL_DATABASE: scoring
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+
+  mongo:
+    image: mongo:latest
+    container_name: yolo-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo_data:/data/db
+
+volumes:
+  db_data:
+
